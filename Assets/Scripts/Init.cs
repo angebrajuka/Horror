@@ -4,6 +4,7 @@ public class Init : MonoBehaviour
 {
     // hierarchy
     public Transform player;
+    public Transform canvas;
     public AudioManager audioManager;
     public MusicController musicController;
 
@@ -15,6 +16,8 @@ public class Init : MonoBehaviour
 
         player.GetComponent<PlayerInput>().Init();
         player.GetComponent<PlayerMovement>().Init();
+
+        canvas.GetComponent<PlayerBloodUI>().Init();
 
         PauseHandler.UnPause();
 

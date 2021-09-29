@@ -1,8 +1,29 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
+public class JsonKeybindPair
+{
+    public string name;
+    public int key;
+
+    public JsonKeybindPair(KeyValuePair<string, KeyCode> bind)
+    {
+        this.name = bind.Key;
+        this.key = (int)bind.Value;
+    }
+}
+
+[System.Serializable]
+public class KeybindsJson
+{
+    public JsonKeybindPair[] keybinds;
+}
+
 public class PlayerInput : MonoBehaviour
 {
+    static string CONTROLS_PATH;
+
     public static PlayerInput instance;
 
     // settings
@@ -17,33 +38,50 @@ public class PlayerInput : MonoBehaviour
     {
         instance = this;
 
+        CONTROLS_PATH = Application.persistentDataPath+"/controls.json";
+
         keybinds = new Dictionary<string, KeyCode>();
 
         input_move = new Vector3(0, 0);
         input_look = new Vector2(0, 0);
         speed_look = new Vector2(1.1f, 0.8f);
 
-        DefaultKeybinds();
+        LoadKeybinds();
     }
 
-    public static void LoadKeybinds()
+    public static void LoadKeybindsString(string bindsTxt)
     {
+        var binds = JsonUtility.FromJson<KeybindsJson>(bindsTxt).keybinds;
+        foreach(var bind in binds)
+        {
+            if(!keybinds.ContainsKey(bind.name)) keybinds.Add(bind.name, (KeyCode)bind.key);
+            else keybinds[bind.name] = (KeyCode)bind.key;
+        }
+    }
 
+    public static void LoadKeybinds(bool forceDefault=false)
+    {
+        keybinds.Clear();
+
+        LoadKeybindsString(Resources.Load<TextAsset>("DefaultControls").text); // default
+        if(!forceDefault && System.IO.File.Exists(CONTROLS_PATH))
+        {
+            LoadKeybindsString(System.IO.File.ReadAllText(CONTROLS_PATH)); // load keybinds if exists
+        }
     }
 
     public static void SaveKeybinds()
     {
+        var binds = new KeybindsJson();
+        binds.keybinds = new JsonKeybindPair[keybinds.Count];
+        int i = 0;
+        foreach(var bind in keybinds)
+        {
+            binds.keybinds[i++] = new JsonKeybindPair(bind);
+        }
+        string bindsTxt = JsonUtility.ToJson(binds);
 
-    }
-
-    public static void DefaultKeybinds()
-    {
-        keybinds.Clear();
-        keybinds.Add("walk_front",      KeyCode.W);
-        keybinds.Add("walk_back",       KeyCode.S);
-        keybinds.Add("walk_left",       KeyCode.A);
-        keybinds.Add("walk_right",      KeyCode.D);
-        keybinds.Add("jump",            KeyCode.Space);
+        System.IO.File.WriteAllText(CONTROLS_PATH, bindsTxt);
     }
 
     public static bool GetKey(string key)

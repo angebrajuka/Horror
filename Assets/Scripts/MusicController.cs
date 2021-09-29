@@ -17,7 +17,8 @@ public class MusicController : MonoBehaviour
         clips = Resources.LoadAll<AudioClip>("Audio/Ambience");
 
         Shuffle();
-        PlayClip();
+
+        // audioSource is play on awake, initial clip is record scratch
     }
 
     public void Shuffle()
@@ -36,11 +37,6 @@ public class MusicController : MonoBehaviour
         {
             clips[0] = clips[1];
             clips[1] = oldLast;
-        }
-
-        foreach(var clip in clips)
-        {
-            Debug.Log(clip);
         }
 
         clip = 0;

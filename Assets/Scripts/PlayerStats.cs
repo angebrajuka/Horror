@@ -5,4 +5,5 @@ public static class PlayerStats
     public const float FRICTION = 0.9f;
     public const float GROUND_NORMAL = 0.8f;
     public const float JUMP_FORCE = 100;
+    public const float RAYCAST_DISTANCE = 20;
 }

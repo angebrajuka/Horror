@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement instance;
 
     // hierarchy
-    public Transform m_camera;
+    public Transform t_camera;
 
     // components
     public static Rigidbody m_rigidbody;
@@ -73,10 +73,10 @@ public class PlayerMovement : MonoBehaviour
         rotation.y += PlayerInput.input_look.x;
         m_rigidbody.rotation = Quaternion.Euler(rotation);
 
-        rotation = m_camera.localEulerAngles;
+        rotation = t_camera.localEulerAngles;
         rotation.x -= PlayerInput.input_look.y;
         if(rotation.x > 90 && rotation.x <= 180)        rotation.x = 90;
         else if(rotation.x < 270 && rotation.x >= 180)  rotation.x = 270;
-        m_camera.localEulerAngles = rotation;
+        t_camera.localEulerAngles = rotation;
     }
 }
