@@ -190,7 +190,7 @@ MonoBehaviour:
   colliderW: {fileID: 2769058478843063669}
   prefab_corn: {fileID: 3262047911133033507, guid: 4fb614f40498bc24cb729d241cae3832, type: 3}
   density: 8
-  variation: 0.04
+  variation: 0.3
   minHeight: 1
   maxHeight: 1.4
 --- !u!1 &2769058477444782710
