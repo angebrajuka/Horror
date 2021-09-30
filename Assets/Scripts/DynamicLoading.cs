@@ -41,7 +41,7 @@ public class DynamicLoading : MonoBehaviour
         return neighbors;
     }
 
-    public void Load(int x, int z)
+    public void Load(int x, int z, bool deadEnd=false)
     {
         var pp = unloadedChunks.Count == 0 ? Instantiate(prefab_chunk, Vector3.zero, Quaternion.identity, chunks).GetComponent<Chunk>() : unloadedChunks.Dequeue();
         pp.gameObject.SetActive(true);
@@ -55,11 +55,13 @@ public class DynamicLoading : MonoBehaviour
 
         var neighbors = GetNeighbors(x, z);
         bool[] bools = new bool[4];
+        bool any = false;
         for(int i=0; i<4; i++)
         {
             if(neighbors[i] == null)
             {
-                bools[i] = Random.value > 0.5f;
+                bools[i] = !deadEnd && (Random.value > 0.7f || (!any && i == 3));
+                any = any || bools[i];
             }
             else
             {
@@ -96,13 +98,26 @@ public class DynamicLoading : MonoBehaviour
         }
     }
 
+    static readonly Vector3Int[] loadOrder = new Vector3Int[]{
+        new Vector3Int( 0,  0,  0), // center
+        new Vector3Int( 0,  0,  1), // N
+        new Vector3Int( 1,  0,  0), // E
+        new Vector3Int( 0,  0, -1), // S
+        new Vector3Int(-1,  0,  0), // W
+        new Vector3Int( 1,  0,  1), // NE
+        new Vector3Int( 1,  0, -1), // SE
+        new Vector3Int(-1,  0, -1), // SW
+        new Vector3Int(-1,  0,  1)  // NW
+    };
+
     public void LoadAll()
     {
-        for(int x=currPos.x-1; x<=currPos.x+1; x++) for(int z=currPos.z-1; z<=currPos.z+1; z++)
+        for(int i=0; i<loadOrder.Length; i++)
         {
-            if(!loadedChunks.ContainsKey((x, z)))
+            var pos = loadOrder[i]+currPos;
+            if(!loadedChunks.ContainsKey((pos.x, pos.z)))
             {
-                Load(x, z);
+                Load(pos.x, pos.z, i>=5 ? Random.value > 0.5f : false);
             }
         }
     }
