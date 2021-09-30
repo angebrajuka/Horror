@@ -20,11 +20,11 @@ public class DynamicLoading : MonoBehaviour
         currPos = new Vector3Int(0, 0, 0);
     }
 
-    static readonly (int x, int z)[] neighborPositions = new (int x, int z)[]{
-        (0, 1), // north
-        (1, 0), // east
-        (0, -1), // south
-        (-1, 0) // west
+    static readonly Vector3Int[] neighborPositions = new Vector3Int[]{
+        Math.N,
+        Math.E,
+        Math.S,
+        Math.W
     };
 
     // chunk array is north, east, south, west
@@ -99,15 +99,15 @@ public class DynamicLoading : MonoBehaviour
     }
 
     static readonly Vector3Int[] loadOrder = new Vector3Int[]{
-        new Vector3Int( 0,  0,  0), // center
-        new Vector3Int( 0,  0,  1), // N
-        new Vector3Int( 1,  0,  0), // E
-        new Vector3Int( 0,  0, -1), // S
-        new Vector3Int(-1,  0,  0), // W
-        new Vector3Int( 1,  0,  1), // NE
-        new Vector3Int( 1,  0, -1), // SE
-        new Vector3Int(-1,  0, -1), // SW
-        new Vector3Int(-1,  0,  1)  // NW
+        Vector3Int.zero, // center
+        Math.N,
+        Math.E,
+        Math.S,
+        Math.W,
+        Math.NE,
+        Math.SE,
+        Math.SW,
+        Math.NW 
     };
 
     public void LoadAll()
