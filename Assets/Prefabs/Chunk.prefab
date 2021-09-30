@@ -184,11 +184,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87acca8c1333cc4429e03af6d19a567d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliders:
-  - {fileID: 2769058478955662466}
-  - {fileID: 2769058477124676213}
-  - {fileID: 2769058478231445562}
-  - {fileID: 2769058478843063669}
+  colliderN: {fileID: 2769058478955662466}
+  colliderE: {fileID: 2769058477124676213}
+  colliderS: {fileID: 2769058478231445562}
+  colliderW: {fileID: 2769058478843063669}
+  prefab_corn: {fileID: 3262047911133033507, guid: 4fb614f40498bc24cb729d241cae3832, type: 3}
+  density: 0.1
+  variation: 0.04
+  minHeight: 1
+  maxHeight: 1.4
 --- !u!1 &2769058477444782710
 GameObject:
   m_ObjectHideFlags: 0
