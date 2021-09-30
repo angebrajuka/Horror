@@ -7,65 +7,102 @@ public class DynamicLoading : MonoBehaviour
     public GameObject prefab_chunk;
     public Transform chunks;
 
-    public Queue<Chunk> unloadedChunks;
-    public Dictionary<(int x, int y), Chunk> loadedChunks;
+    public static Queue<Chunk> unloadedChunks;
+    public static Dictionary<(int x, int z), Chunk> loadedChunks;
     public const int CHUNK_SIZE = 10;
-    public Vector2Int prevPos, currPos;
+    public Vector3Int prevPos, currPos;
 
     public void Init()
     {
         unloadedChunks = new Queue<Chunk>();
-        loadedChunks = new Dictionary<(int x, int y), Chunk>();
-        prevPos = new Vector2Int(0, 0);
-        currPos = new Vector2Int(0, 0);
+        loadedChunks = new Dictionary<(int x, int z), Chunk>();
+        prevPos = new Vector3Int(0, 0, 0);
+        currPos = new Vector3Int(0, 0, 0);
     }
 
-    public void Load(int x, int y)
+    static readonly (int x, int z)[] neighborPositions = new (int x, int z)[]{
+        (0, 1), // north
+        (1, 0), // east
+        (0, -1), // south
+        (-1, 0) // west
+    };
+
+    // chunk array is north, east, south, west
+    public static Chunk[] GetNeighbors(int x, int z)
+    {
+        var neighbors = new Chunk[4];
+
+        for(int i=0; i<4; i++)
+        {
+            var pos = (neighborPositions[i].x+x, neighborPositions[i].z+z);
+            neighbors[i] = loadedChunks.ContainsKey(pos) ? loadedChunks[pos] : null;
+        }
+
+        return neighbors;
+    }
+
+    public void Load(int x, int z)
     {
         var pp = unloadedChunks.Count == 0 ? Instantiate(prefab_chunk, Vector3.zero, Quaternion.identity, chunks).GetComponent<Chunk>() : unloadedChunks.Dequeue();
         pp.gameObject.SetActive(true);
+
         Vector3 pos = pp.transform.position;
         pos.x = x*CHUNK_SIZE;
-        pos.z = y*CHUNK_SIZE;
+        pos.z = z*CHUNK_SIZE;
         pp.transform.position = pos;
 
-        loadedChunks.Add((x, y), pp);
-        pp.Init(true, true, true, true);
+        loadedChunks.Add((x, z), pp);
+
+        var neighbors = GetNeighbors(x, z);
+        bool[] bools = new bool[4];
+        for(int i=0; i<4; i++)
+        {
+            if(neighbors[i] == null)
+            {
+                bools[i] = Random.value > 0.5f;
+            }
+            else
+            {
+                GameObject[] other = new GameObject[]{neighbors[i].colliderS, neighbors[i].colliderW, neighbors[i].colliderN, neighbors[i].colliderE};
+                bools[i] = !other[i].activeSelf;
+            }
+        }
+        pp.Init(bools[0], bools[1], bools[2], bools[3]);
     }
 
-    public void Unload(int x, int y)
+    public void Unload(int x, int z)
     {
-        if(!loadedChunks.ContainsKey((x, y))) return;
+        if(!loadedChunks.ContainsKey((x, z))) return;
 
-        Chunk chunk = loadedChunks[(x, y)];
+        Chunk chunk = loadedChunks[(x, z)];
         chunk.gameObject.SetActive(false);
-        loadedChunks.Remove((x, y));
+        loadedChunks.Remove((x, z));
         unloadedChunks.Enqueue(chunk);
     }
 
     public void UnloadTooFar()
     {
-        var toUnload = new LinkedList<(int x, int y)>();
+        var toUnload = new LinkedList<(int x, int z)>();
         foreach(var chunk in loadedChunks)
         {
-            if(Mathf.Abs(currPos.x - chunk.Key.x) > 2 || Mathf.Abs(currPos.y - chunk.Key.y) > 2)
+            if(Mathf.Abs(currPos.x - chunk.Key.x) > 2 || Mathf.Abs(currPos.z - chunk.Key.z) > 2)
             {
-                toUnload.AddLast((chunk.Key.x, chunk.Key.y));
+                toUnload.AddLast((chunk.Key.x, chunk.Key.z));
             }
         }
         foreach(var pos in toUnload)
         {
-            Unload(pos.x, pos.y);
+            Unload(pos.x, pos.z);
         }
     }
 
     public void LoadAll()
     {
-        for(int x=currPos.x-1; x<=currPos.x+1; x++) for(int y=currPos.y-1; y<=currPos.y+1; y++)
+        for(int x=currPos.x-1; x<=currPos.x+1; x++) for(int z=currPos.z-1; z<=currPos.z+1; z++)
         {
-            if(!loadedChunks.ContainsKey((x, y)))
+            if(!loadedChunks.ContainsKey((x, z)))
             {
-                Load(x, y);
+                Load(x, z);
             }
         }
     }
@@ -73,7 +110,7 @@ public class DynamicLoading : MonoBehaviour
     void Update()
     {
         Vector3 p = PlayerMovement.m_rigidbody.position;
-        currPos.Set((int)Mathf.Floor(p.x/10f), (int)Mathf.Floor(p.z/10f));
+        currPos.Set((int)Mathf.Floor(p.x/CHUNK_SIZE), 0, (int)Mathf.Floor(p.z/CHUNK_SIZE));
 
         if(currPos != prevPos || loadedChunks.Count == 0)
         {
@@ -81,6 +118,6 @@ public class DynamicLoading : MonoBehaviour
             LoadAll();
         }
 
-        prevPos.Set(currPos.x, currPos.y);
+        prevPos.Set(currPos.x, 0, currPos.z);
     }
 }
