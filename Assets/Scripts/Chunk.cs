@@ -9,7 +9,7 @@ public class Chunk : MonoBehaviour
     public GameObject colliderS;
     public GameObject colliderW;
     public GameObject prefab_corn;
-    public float density;
+    public int density;
     public float variation;
     public float minHeight, maxHeight;
 
@@ -43,15 +43,15 @@ public class Chunk : MonoBehaviour
 
     public void AddCorn(BoxCollider collider)
     {
-        for(float x=-collider.size.x/2; x<collider.size.x/2; x+=density) for(float z=-collider.size.z/2; z<collider.size.z/2; z+=density)
+        for(int x=0; x<=density; x++) for(int z=0; z<=density; z++)
         {
             var corn = disabledCorns.Count == 0 ? Instantiate(prefab_corn, Vector3.zero, Quaternion.identity) : disabledCorns.Dequeue();
             corn.transform.SetParent(collider.transform);
             
             var pos = corn.transform.localPosition;
-            pos.x = x+Random.Range(-variation, variation);
+            pos.x = Math.Remap(x, 0, density, -collider.size.x/2, collider.size.x/2)+Random.Range(-variation, variation);
             pos.y = 0;
-            pos.z = z+Random.Range(-variation, variation);
+            pos.z = Math.Remap(z, 0, density, -collider.size.z/2, collider.size.z/2)+Random.Range(-variation, variation);
             corn.transform.localPosition = pos;
             
             var rotation = corn.transform.eulerAngles;
