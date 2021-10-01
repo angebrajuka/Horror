@@ -125,12 +125,12 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.786
+    m_Value: 1
     min: 0
     max: 1
   response:
     m_OverrideState: 1
-    m_Value: 0.809
+    m_Value: 0.814
     min: 0
     max: 1
   texture:

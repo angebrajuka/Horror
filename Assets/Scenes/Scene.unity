@@ -799,6 +799,7 @@ GameObject:
   - component: {fileID: 829120233}
   - component: {fileID: 829120235}
   - component: {fileID: 829120236}
+  - component: {fileID: 829120240}
   - component: {fileID: 829120238}
   - component: {fileID: 829120237}
   - component: {fileID: 829120239}
@@ -925,6 +926,23 @@ MonoBehaviour:
   chunks: {fileID: 836407070}
   prevPos: {x: 0, y: 0, z: 0}
   currPos: {x: 0, y: 0, z: 0}
+--- !u!114 &829120240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829120231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3210e348688b99459e3ae7493e0d8fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashlight: {fileID: 1940312635}
+  click_on: {fileID: 8300000, guid: 7a25654e2b6dbe049917a07ecb01b45f, type: 3}
+  click_off: {fileID: 8300000, guid: 473b8d3a8398cca4cb0c054c7a8e4484, type: 3}
+  time: 120
+  onDelay: 3
 --- !u!1 &836407069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1079,7 @@ GameObject:
   m_Component:
   - component: {fileID: 935558909}
   - component: {fileID: 935558908}
+  - component: {fileID: 935558910}
   m_Layer: 0
   m_Name: Red Sun
   m_TagString: Untagged
@@ -1080,7 +1099,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 0.01
+  m_Intensity: 0
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1144,6 +1163,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &935558910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935558907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae34741a9bbdfb64ebed9f824eb64a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sun: {fileID: 935558908}
+  maxIntensity: 0.01
+  speed: 0.01
 --- !u!1 &1479880309
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,7 +1707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1940312633
 Transform:
   m_ObjectHideFlags: 0
