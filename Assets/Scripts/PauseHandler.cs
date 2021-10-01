@@ -39,10 +39,21 @@ public class PauseHandler : MonoBehaviour
         PlayerMovement.instance.enabled = true;
     }
 
-    public static void Pause()
+    public static void HideCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public static void ShowCursor()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    public static void Pause()
+    {
+        ShowCursor();
 
         paused = true;
 
@@ -54,8 +65,7 @@ public class PauseHandler : MonoBehaviour
 
     public static void UnPause()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        HideCursor();
 
         UnfreezePhysics();
         EnableInput();

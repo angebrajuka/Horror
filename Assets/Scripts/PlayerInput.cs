@@ -96,14 +96,15 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.Escape))
-        {
-            PauseHandler.Pause();
-        }
+        input_move.Set(0, 0, 0);
+        input_look.Set(0, 0);
+
+        if(Input.GetKeyDown(KeyCode.Escape)) PauseHandler.ShowCursor();
+        if(Input.GetKeyDown(KeyCode.Mouse0)) PauseHandler.HideCursor();
+        if(Cursor.visible) return;
 
         // movement
         {
-            input_move.Set(0, 0, 0);
             if(GetKey("walk_front"))    input_move.z ++;
             if(GetKey("walk_back"))     input_move.z --;
             if(GetKey("walk_left"))     input_move.x --;
