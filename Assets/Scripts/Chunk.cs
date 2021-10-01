@@ -4,50 +4,75 @@ using System.Collections.Generic;
 public class Chunk : MonoBehaviour
 {
     // hierarchy
-    public GameObject colliderN;
-    public GameObject colliderE;
-    public GameObject colliderS;
-    public GameObject colliderW;
+    public GameObject[] colliders;
     public GameObject prefab_corn;
     public int density;
     public float variation;
     public float minHeight, maxHeight;
 
-    Queue<GameObject> disabledCorns=new Queue<GameObject>();
+    public bool deadEnd;
+    public Vector3Int pos;
+    public int totalOpenings;
 
-    public void Init(bool N, bool E, bool S, bool W)
+    static readonly int[] opposites = new int[]{2, 3, 0, 1};
+
+    public void Init(int x, int z, bool deadEnd)
     {
-        colliderN.SetActive(!N);
-        colliderE.SetActive(!E);
-        colliderS.SetActive(!S);
-        colliderW.SetActive(!W);
+        pos = new Vector3Int(x, 0, z);
+        this.deadEnd = deadEnd;
+        totalOpenings = 0;
 
-        disabledCorns.Clear();
-
-        for(int c=1; c<transform.childCount; c++) // c starts at 1 to skip plane
+        foreach(var collider in colliders)
         {
-            var collider = transform.GetChild(c);
-            for(int i=0; i<collider.transform.childCount; i++)
-            {
-                var child = collider.transform.GetChild(i);
-                child.gameObject.SetActive(false);
-                disabledCorns.Enqueue(child.gameObject);
-            }
+            collider.SetActive(true);
+        }
 
-            if(collider.gameObject.activeSelf)
+        for(int i=0; i<colliders.Length; i++)
+        {
+            var position = pos+DynamicLoading.neighborPositions[i];
+            if(DynamicLoading.loadedChunks.ContainsKey((position.x, position.z)) &&
+                DynamicLoading.loadedChunks[(position.x, position.z)].IsOpen(opposites[i]))
             {
-                AddCorn(collider.GetComponent<BoxCollider>());
+                colliders[i].SetActive(false);
+                totalOpenings ++;
             }
         }
+
+        int openings = Random.Range(deadEnd ? 0 : 1, 4);
+        for(int i=0; i<openings && totalOpenings<colliders.Length-1; i++)
+        {
+            int j = Random.Range(0, 4);
+            while(IsOpen(j%4))
+            {
+                j++;
+                if(j > 8) return;
+            }
+            colliders[j%4].SetActive(false);
+            totalOpenings ++;
+        }
+    }
+
+    public bool IsOpen(int i)
+    {
+        return !colliders[i].activeSelf;
+    }
+
+    public Chunk AddAllCorn()
+    {
+        for(int c=1; c<transform.childCount; c++) // c starts at 1 to skip plane
+        {
+            AddCorn(transform.GetChild(c).GetComponent<BoxCollider>());
+        }
+
+        return this;
     }
 
     public void AddCorn(BoxCollider collider)
     {
         for(int x=0; x<=density; x++) for(int z=0; z<=density; z++)
         {
-            var corn = disabledCorns.Count == 0 ? Instantiate(prefab_corn, Vector3.zero, Quaternion.identity) : disabledCorns.Dequeue();
-            corn.transform.SetParent(collider.transform);
-            
+            var corn = Instantiate(prefab_corn, Vector3.zero, Quaternion.identity, collider.transform);
+
             var pos = corn.transform.localPosition;
             pos.x = Math.Remap(x, 0, density, -collider.size.x/2, collider.size.x/2)+Random.Range(-variation, variation);
             pos.y = 0;
@@ -61,7 +86,6 @@ public class Chunk : MonoBehaviour
             var scale = corn.transform.localScale;
             scale.y = Random.Range(minHeight, maxHeight);
             corn.transform.localScale = scale;
-            corn.SetActive(true);
         }
     }
 }

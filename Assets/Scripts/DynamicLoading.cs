@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class DynamicLoading : MonoBehaviour
 {
+    public static DynamicLoading instance;
+
     // hierarchy
     public GameObject prefab_chunk;
     public Transform chunks;
@@ -14,62 +16,56 @@ public class DynamicLoading : MonoBehaviour
 
     public void Init()
     {
+        instance = this;
+
         unloadedChunks = new Queue<Chunk>();
         loadedChunks = new Dictionary<(int x, int z), Chunk>();
         prevPos = new Vector3Int(0, 0, 0);
         currPos = new Vector3Int(0, 0, 0);
     }
 
-    static readonly Vector3Int[] neighborPositions = new Vector3Int[]{
+    public static readonly Vector3Int[] neighborPositions = new Vector3Int[]{
         Math.N,
         Math.E,
         Math.S,
         Math.W
     };
 
-    // chunk array is north, east, south, west
-    public static Chunk[] GetNeighbors(int x, int z)
+    public void LoadNeighbors(Chunk chunk, int iteration)
     {
-        var neighbors = new Chunk[4];
-
-        for(int i=0; i<4; i++)
+        for(int i=0; i<neighborPositions.Length; i++)
         {
-            var pos = (neighborPositions[i].x+x, neighborPositions[i].z+z);
-            neighbors[i] = loadedChunks.ContainsKey(pos) ? loadedChunks[pos] : null;
-        }
+            var pos = chunk.pos + neighborPositions[i];
 
-        return neighbors;
+            bool continued = chunk.deadEnd;
+            if(chunk.IsOpen(i))
+            {
+                bool dead = (i != neighborPositions.Length-1 || continued) && chunk.totalOpenings > 1 && Random.value > 0.5f;
+                Load(pos, dead, iteration-1);
+                continued = continued || !dead;
+            }
+        }
     }
 
-    public void Load(int x, int z, bool deadEnd=false)
+    public Chunk Load(Vector3Int pos, bool deadEnd, int iteration)
     {
-        var pp = unloadedChunks.Count == 0 ? Instantiate(prefab_chunk, Vector3.zero, Quaternion.identity, chunks).GetComponent<Chunk>() : unloadedChunks.Dequeue();
-        pp.gameObject.SetActive(true);
-
-        Vector3 pos = pp.transform.position;
-        pos.x = x*CHUNK_SIZE;
-        pos.z = z*CHUNK_SIZE;
-        pp.transform.position = pos;
-
-        loadedChunks.Add((x, z), pp);
-
-        var neighbors = GetNeighbors(x, z);
-        bool[] bools = new bool[4];
-        bool any = false;
-        for(int i=0; i<4; i++)
+        if(!loadedChunks.ContainsKey((pos.x, pos.z)))
         {
-            if(neighbors[i] == null)
-            {
-                bools[i] = !deadEnd && (Random.value > 0.7f || (!any && i == 3));
-                any = any || bools[i];
-            }
-            else
-            {
-                GameObject[] other = new GameObject[]{neighbors[i].colliderS, neighbors[i].colliderW, neighbors[i].colliderN, neighbors[i].colliderE};
-                bools[i] = !other[i].activeSelf;
-            }
+            var chunk = unloadedChunks.Count == 0 ? Instantiate(prefab_chunk, Vector3.zero, Quaternion.identity, chunks).GetComponent<Chunk>().AddAllCorn() : unloadedChunks.Dequeue();
+            chunk.gameObject.SetActive(true);
+
+            Vector3 position = chunk.transform.position;
+            position.x = pos.x*CHUNK_SIZE;
+            position.z = pos.z*CHUNK_SIZE;
+            chunk.transform.position = position;
+
+            loadedChunks.Add((pos.x, pos.z), chunk);
+            chunk.Init(pos.x, pos.z, deadEnd);
         }
-        pp.Init(bools[0], bools[1], bools[2], bools[3]);
+
+        if(iteration > 0) LoadNeighbors(loadedChunks[(pos.x, pos.z)], iteration);
+
+        return loadedChunks[(pos.x, pos.z)];
     }
 
     public void Unload(int x, int z)
@@ -107,20 +103,8 @@ public class DynamicLoading : MonoBehaviour
         Math.NE,
         Math.SE,
         Math.SW,
-        Math.NW 
+        Math.NW
     };
-
-    public void LoadAll()
-    {
-        for(int i=0; i<loadOrder.Length; i++)
-        {
-            var pos = loadOrder[i]+currPos;
-            if(!loadedChunks.ContainsKey((pos.x, pos.z)))
-            {
-                Load(pos.x, pos.z, i>=5 ? Random.value > 0.5f : false);
-            }
-        }
-    }
 
     void Update()
     {
@@ -130,7 +114,7 @@ public class DynamicLoading : MonoBehaviour
         if(currPos != prevPos || loadedChunks.Count == 0)
         {
             UnloadTooFar();
-            LoadAll();
+            Load(currPos, false, 1);
         }
 
         prevPos.Set(currPos.x, 0, currPos.z);
