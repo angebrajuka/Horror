@@ -1,26 +1,26 @@
 using UnityEngine;
-using static Enemy;
 
 public class Enemy_WeepingAngel : MonoBehaviour
 {
-    
+    // hierarchy
+    public OnScreen onScreen;
+    public float despawnDistance;
+
+    public Enemy enemy;
 
     void Start()
     {
-        
+        enemy = new Enemy(transform, onScreen, despawnDistance);
     }
 
     void Update()
     {
-        _Update(transform);
+        enemy.Update();
 
-        if(Enemy.LineOfSight(transform))
+        if(enemy.LineOfSight() && !onScreen.onScreen)
         {
-            // move towards player
-        }
-        else
-        {
-            // despawn timer? distance despawn?
+            transform.position = Vector3.MoveTowards(transform.position, PlayerMovement.m_rigidbody.position, Time.deltaTime);
+            transform.LookAt(PlayerMovement.m_rigidbody.position);
         }
     }
 }

@@ -69,14 +69,20 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 rotation = m_rigidbody.rotation.eulerAngles;
-        rotation.y += PlayerInput.input_look.x;
-        m_rigidbody.rotation = Quaternion.Euler(rotation);
-
-        rotation = t_camera.localEulerAngles;
-        rotation.x -= PlayerInput.input_look.y;
-        if(rotation.x > 90 && rotation.x <= 180)        rotation.x = 90;
-        else if(rotation.x < 270 && rotation.x >= 180)  rotation.x = 270;
-        t_camera.localEulerAngles = rotation;
+        Vector3 rotation;
+        if(PlayerInput.input_look.x != 0)
+        {
+            rotation = m_rigidbody.rotation.eulerAngles;
+            rotation.y += PlayerInput.input_look.x;
+            m_rigidbody.rotation = Quaternion.Euler(rotation);
+        }
+        if(PlayerInput.input_look.y != 0)
+        {
+            rotation = t_camera.localEulerAngles;
+            rotation.x -= PlayerInput.input_look.y;
+            if(rotation.x > 90 && rotation.x <= 180)        rotation.x = 90;
+            else if(rotation.x < 270 && rotation.x >= 180)  rotation.x = 270;
+            t_camera.localEulerAngles = rotation;
+        }
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769058477031105350}
   - component: {fileID: 2769058477031105345}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Corner SE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769058477124676214}
   - component: {fileID: 2769058477124676215}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Edge E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769058477293891521}
   - component: {fileID: 2769058477293891580}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Corner NW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,9 +194,9 @@ MonoBehaviour:
   variation: 0.3
   minHeight: 1
   maxHeight: 1.4
-  deadEnd: 0
   pos: {x: 0, y: 0, z: 0}
   totalOpenings: 0
+  branches: 0
 --- !u!1 &2769058477444782710
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769058477444782711}
   - component: {fileID: 2769058477444782704}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Corner SW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769058478231445563}
   - component: {fileID: 2769058478231445556}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Edge S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769058478589031987}
   - component: {fileID: 2769058478589031982}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Corner NE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769058478843063670}
   - component: {fileID: 2769058478843063671}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Edge W
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,7 +479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769058478955662467}
   - component: {fileID: 2769058478955662524}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Edge N
   m_TagString: Untagged
   m_Icon: {fileID: 0}

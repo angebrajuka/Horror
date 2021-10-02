@@ -1,17 +1,35 @@
 using UnityEngine;
 
-public static class Enemy
+public class Enemy
 {
+    public Transform transform;
+    public OnScreen onScreen;
+    public float despawnDistance;
 
-    public static bool LineOfSight(Transform enemy)
+    public Enemy(Transform transform, OnScreen onScreen, float despawnDistance)
+    {
+        this.transform = transform;
+        this.onScreen = onScreen;
+        this.despawnDistance = despawnDistance;
+    }
+
+    float Distance
+    {
+        get { return Vector3.Distance(transform.position, PlayerMovement.m_rigidbody.position); }
+    }
+
+    public bool LineOfSight()
     {
         const int layermask = 1 << Layers.CORN;
 
-        return !Physics.Raycast(enemy.position, PlayerMovement.m_rigidbody.position-enemy.position, Vector3.Distance(enemy.position, PlayerMovement.m_rigidbody.position), layermask);
+        return !Physics.Raycast(transform.position, PlayerMovement.instance.t_camera.position-transform.position, Distance, layermask);
     }
 
-    public static void _Update(Transform enemy)
+    public void Update()
     {
-        
+        if(!onScreen.onScreen && Distance > despawnDistance)
+        {
+            MonoBehaviour.Destroy(transform.gameObject);
+        }
     }
 }
