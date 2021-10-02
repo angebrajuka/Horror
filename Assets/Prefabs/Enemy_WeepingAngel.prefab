@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onScreen: {fileID: 3438079277913165509}
-  despawnDistance: 5
+  despawnDistance: 25
 --- !u!114 &3438079277913165509
 MonoBehaviour:
   m_ObjectHideFlags: 0

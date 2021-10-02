@@ -12,7 +12,7 @@ public class DynamicLoading : MonoBehaviour
     public static Queue<Chunk> unloadedChunks;
     public static Dictionary<(int x, int z), Chunk> loadedChunks;
     public const int CHUNK_SIZE = 10;
-    public Vector3Int prevPos, currPos;
+    public static Vector3Int prevPos, currPos;
 
     public void Init()
     {

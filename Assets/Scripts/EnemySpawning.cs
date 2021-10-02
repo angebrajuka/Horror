@@ -11,10 +11,15 @@ public class EnemySpawning : MonoBehaviour
 
     Vector3 GetPosition()
     {
-        Vector3 position = PlayerMovement.m_rigidbody.position;
-        Vector2 offset = Random.insideUnitCircle.normalized*Random.Range(minDistance, maxDistance);
-        position.x += offset.x;
-        position.z += offset.y;
+        Vector3 position = DynamicLoading.currPos;
+        position += DynamicLoading.neighborPositions[Random.Range(0, DynamicLoading.neighborPositions.Length)];
+        position.x += 0.5f;
+        position.z += 0.5f;
+        position *= DynamicLoading.CHUNK_SIZE;
+        // Vector2 offset = Random.insideUnitCircle.normalized*Random.Range(minDistance, maxDistance);
+        // position.x += offset.x;
+        // position.z += offset.y;
+
         return position;
     }
 
