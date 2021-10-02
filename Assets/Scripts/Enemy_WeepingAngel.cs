@@ -12,6 +12,15 @@ public class Enemy_WeepingAngel : MonoBehaviour
 
     void Update()
     {
-        _Update();
+        _Update(transform);
+
+        if(Enemy.LineOfSight(transform))
+        {
+            // move towards player
+        }
+        else
+        {
+            // despawn timer? distance despawn?
+        }
     }
 }

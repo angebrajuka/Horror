@@ -37,10 +37,10 @@ public class DynamicLoading : MonoBehaviour
         {
             var pos = chunk.pos + neighborPositions[i];
 
-            bool continued = chunk.deadEnd;
+            bool continued = false;
             if(chunk.IsOpen(i))
             {
-                bool dead = (i != neighborPositions.Length-1 || continued) && chunk.totalOpenings > 1 && Random.value > 0.5f;
+                bool dead = (i != neighborPositions.Length-1 || continued) && chunk.branches > 1 && Random.value > 0.4f;
                 Load(pos, dead, iteration-1);
                 continued = continued || !dead;
             }

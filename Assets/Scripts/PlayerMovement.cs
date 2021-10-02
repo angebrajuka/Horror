@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         if(grounded)
         {
             // accellerate
-            m_rigidbody.AddRelativeForce(PlayerInput.input_move.x*PlayerStats.WALK_ACCEL, PlayerInput.input_move.y, PlayerInput.input_move.z*PlayerStats.WALK_ACCEL);
+            m_rigidbody.AddRelativeForce(PlayerInput.input_move.x*PlayerStats.WALK_ACCEL, 0, PlayerInput.input_move.z*PlayerStats.WALK_ACCEL);
 
             // get vel
             Vector3 vel = m_rigidbody.velocity;
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // friction
-            if(PlayerInput.input_move.x == 0 && PlayerInput.input_move.y == 0)
+            if(PlayerInput.input_move.x == 0 && PlayerInput.input_move.z == 0)
             {
                 vel *= PlayerStats.FRICTION;
             }

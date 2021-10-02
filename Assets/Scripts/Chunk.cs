@@ -10,16 +10,15 @@ public class Chunk : MonoBehaviour
     public float variation;
     public float minHeight, maxHeight;
 
-    public bool deadEnd;
     public Vector3Int pos;
     public int totalOpenings;
+    public int branches;
 
     static readonly int[] opposites = new int[]{2, 3, 0, 1};
 
     public void Init(int x, int z, bool deadEnd)
     {
         pos = new Vector3Int(x, 0, z);
-        this.deadEnd = deadEnd;
         totalOpenings = 0;
 
         foreach(var collider in colliders)
@@ -38,8 +37,8 @@ public class Chunk : MonoBehaviour
             }
         }
 
-        int openings = Random.Range(deadEnd ? 0 : 1, 4);
-        for(int i=0; i<openings && totalOpenings<colliders.Length-1; i++)
+        branches = Mathf.Min(Random.Range(deadEnd ? 0 : 1, 3), 4-totalOpenings);
+        for(int i=0; i<branches; i++)
         {
             int j = Random.Range(0, 4);
             while(IsOpen(j%4))
@@ -75,7 +74,7 @@ public class Chunk : MonoBehaviour
 
             var pos = corn.transform.localPosition;
             pos.x = Math.Remap(x, 0, density, -collider.size.x/2, collider.size.x/2)+Random.Range(-variation, variation);
-            pos.y = 0;
+            pos.y = Random.Range(-0.1f, -0.01f);
             pos.z = Math.Remap(z, 0, density, -collider.size.z/2, collider.size.z/2)+Random.Range(-variation, variation);
             corn.transform.localPosition = pos;
             
