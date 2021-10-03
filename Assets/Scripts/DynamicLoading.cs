@@ -47,20 +47,29 @@ public class DynamicLoading : MonoBehaviour
         }
     }
 
+    public Chunk LoadRaw(Vector3Int pos, bool[] nesw)
+    {
+        var chunk = unloadedChunks.Count == 0 ? Instantiate(prefab_chunk, Vector3.zero, Quaternion.identity, chunks).GetComponent<Chunk>().AddAllCorn() : unloadedChunks.Dequeue();
+        chunk.gameObject.SetActive(true);
+        chunk.Init_Raw(pos.x, pos.z, nesw);
+
+        Vector3 position = chunk.transform.position;
+        position.x = pos.x*CHUNK_SIZE;
+        position.z = pos.z*CHUNK_SIZE;
+        chunk.transform.position = position;
+
+        loadedChunks.Add((pos.x, pos.z), chunk);
+
+        return chunk;
+    }
+
     public Chunk Load(Vector3Int pos, bool deadEnd, int iteration)
     {
         if(!loadedChunks.ContainsKey((pos.x, pos.z)))
         {
-            var chunk = unloadedChunks.Count == 0 ? Instantiate(prefab_chunk, Vector3.zero, Quaternion.identity, chunks).GetComponent<Chunk>().AddAllCorn() : unloadedChunks.Dequeue();
-            chunk.gameObject.SetActive(true);
+            var chunk = LoadRaw(pos, new bool[]{false, false, false, false});
 
-            Vector3 position = chunk.transform.position;
-            position.x = pos.x*CHUNK_SIZE;
-            position.z = pos.z*CHUNK_SIZE;
-            chunk.transform.position = position;
-
-            loadedChunks.Add((pos.x, pos.z), chunk);
-            chunk.Init(pos.x, pos.z, deadEnd);
+            chunk.Init(deadEnd);
         }
 
         if(iteration > 0) LoadNeighbors(loadedChunks[(pos.x, pos.z)], iteration);

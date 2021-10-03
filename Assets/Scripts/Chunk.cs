@@ -16,16 +16,21 @@ public class Chunk : MonoBehaviour
 
     static readonly int[] opposites = new int[]{2, 3, 0, 1};
 
-    public void Init(int x, int z, bool deadEnd)
+    public void Init_Raw(int x, int z, bool[] nesw)
     {
         pos = new Vector3Int(x, 0, z);
         totalOpenings = 0;
 
+        int i=0;
         foreach(var collider in colliders)
         {
-            collider.SetActive(true);
+            collider.SetActive(!nesw[i]);
+            i++;
         }
+    }
 
+    public void Init(bool deadEnd)
+    {
         for(int i=0; i<colliders.Length; i++)
         {
             var position = pos+DynamicLoading.neighborPositions[i];

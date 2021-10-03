@@ -4,6 +4,9 @@ public class OnExit : MonoBehaviour
 {
     void OnApplicationQuit()
     {
-        SaveData.Save();
+        if(!PlayerLife.dead)
+        {
+            SaveData.Save();
+        }
     }
 }

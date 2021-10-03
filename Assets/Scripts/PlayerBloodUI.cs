@@ -22,17 +22,17 @@ public class PlayerBloodUI : MonoBehaviour
         splatters = new LinkedList<(Vector2 pos, int index)>();
     }
 
-    public static void AddSplatter(Vector2 position=default(Vector2))
+    public static void AddSplatter(Vector2 position=default(Vector2), int index=-1, bool sound=true)
     {
         if(position == default(Vector2))
         {
             position = new Vector2(Random.value*Screen.width, Random.value*Screen.height);
         }
-        int index = Random.Range(0, splatter_textures.Length);
+        if(index == -1) index = Random.Range(0, splatter_textures.Length);
 
         var splatter = Instantiate(instance.prefab_splatter, position, Quaternion.identity, instance.transform);
         splatter.GetComponent<RawImage>().texture = splatter_textures[index];
-        AudioManager.PlayClip(clips[Random.Range(0, clips.Length)]);
+        if(sound) AudioManager.PlayClip(clips[Random.Range(0, clips.Length)]);
 
         splatters.AddLast((position, index));
     }
