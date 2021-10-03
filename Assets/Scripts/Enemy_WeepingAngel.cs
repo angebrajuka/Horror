@@ -4,7 +4,9 @@ public class Enemy_WeepingAngel : MonoBehaviour
 {
     // hierarchy
     public OnScreen onScreen;
+    public EnemyLookedAt enemyLookedAt;
     public float despawnDistance;
+    public float breakTimerMax;
 
     public Enemy enemy;
 
@@ -21,6 +23,11 @@ public class Enemy_WeepingAngel : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, PlayerMovement.m_rigidbody.position, Time.deltaTime);
             transform.LookAt(PlayerMovement.m_rigidbody.position);
+        }
+
+        if(enemyLookedAt.LookedAtTimer > breakTimerMax)
+        {
+            Debug.Log("boo");
         }
     }
 }

@@ -7,6 +7,7 @@ public class Init : MonoBehaviour
     public Transform canvas;
     public AudioManager audioManager;
     public MusicController musicController;
+    public bool load;
 
     void Start()
     {
@@ -22,8 +23,11 @@ public class Init : MonoBehaviour
 
         canvas.GetComponent<PlayerBloodUI>().Init();
 
-        SaveData.TryLoad();
-
+        if(load)
+        {
+            SaveData.TryLoad();
+        }
+        
         PauseHandler.UnPause();
 
         Destroy(gameObject);

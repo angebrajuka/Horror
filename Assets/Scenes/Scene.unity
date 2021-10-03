@@ -972,6 +972,7 @@ MonoBehaviour:
   click_off: {fileID: 8300000, guid: 473b8d3a8398cca4cb0c054c7a8e4484, type: 3}
   time: 120
   onDelay: 3
+  on: 0
 --- !u!114 &829120241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -984,7 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a689cf7c64c1b4429a350aacf44b769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: {fileID: 826157886}
+  transform_enemies: {fileID: 0}
   prefabs_enemies:
   - {fileID: 4174639950120652942, guid: 21e9c7441e66e2d4eb4b46333b85ad41, type: 3}
   minDistance: 100
@@ -1944,6 +1945,7 @@ MonoBehaviour:
   canvas: {fileID: 667704321}
   audioManager: {fileID: 595957944}
   musicController: {fileID: 557604145}
+  load: 0
 --- !u!4 &2010993683
 Transform:
   m_ObjectHideFlags: 0

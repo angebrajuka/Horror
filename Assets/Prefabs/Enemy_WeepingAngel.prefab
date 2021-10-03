@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4174639950120652937}
   - component: {fileID: 4174639950120652940}
   - component: {fileID: 4174639950120652941}
+  - component: {fileID: 6714359615025992476}
   m_Layer: 7
   m_Name: Enemy_WeepingAngel
   m_TagString: Untagged
@@ -59,7 +60,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onScreen: {fileID: 3438079277913165509}
+  enemyLookedAt: {fileID: 6714359615025992476}
   despawnDistance: 25
+  breakTimerMax: 1
+--- !u!114 &6714359615025992476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4174639950120652942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f17b5bd5d0362ce43a083b5a48250850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3438079277913165509
 MonoBehaviour:
   m_ObjectHideFlags: 0
