@@ -6,8 +6,11 @@ public class Enemy_WeepingAngel : MonoBehaviour
     public MeshRenderer[] eyes;
     public OnScreen onScreen;
     public EnemyLookedAt enemyLookedAt;
+    public GameObject mesh_default, mesh_explode;
+    public GameObject prefab_innerDemon;
     public float despawnDistance;
     public float breakTimerMax;
+    public float moveSpeed;
 
     public Enemy enemy;
 
@@ -22,7 +25,7 @@ public class Enemy_WeepingAngel : MonoBehaviour
 
         if(enemy.LineOfSight() && !onScreen.onScreen)
         {
-            transform.position = Vector3.MoveTowards(transform.position, PlayerMovement.m_rigidbody.position, Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, PlayerMovement.m_rigidbody.position, Time.deltaTime*moveSpeed);
             transform.LookAt(PlayerMovement.m_rigidbody.position);
         }
 
@@ -33,7 +36,9 @@ public class Enemy_WeepingAngel : MonoBehaviour
 
         if(enemyLookedAt.LookedAtTimer > breakTimerMax)
         {
-            Debug.Log("boo");
+            enabled = false;
+            mesh_default.SetActive(false);
+            mesh_explode.SetActive(true);
         }
     }
 }
