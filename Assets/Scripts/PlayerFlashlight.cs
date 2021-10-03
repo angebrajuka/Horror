@@ -2,16 +2,20 @@ using UnityEngine;
 
 public class PlayerFlashlight : MonoBehaviour
 {
+    public static PlayerFlashlight instance;
+
     // hierarchy
     public FlickeringLight flashlight;
     public AudioClip click_on;
     public AudioClip click_off;
     public float time;
     public float onDelay;
-    bool on;
+    [HideInInspector] public bool on;
 
-    void Start()
+    public void Init()
     {
+        instance = this;
+
         on = false;
     }
 

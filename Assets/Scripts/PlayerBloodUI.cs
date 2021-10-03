@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class PlayerBloodUI : MonoBehaviour
 {
@@ -8,15 +9,17 @@ public class PlayerBloodUI : MonoBehaviour
     // hierarchy
     public GameObject prefab_splatter;
 
-    static Texture2D[] splatters;
+    static Texture2D[] splatter_textures;
     static AudioClip[] clips;
+    public static LinkedList<(Vector2 pos, int index)> splatters;
 
     public void Init()
     {
         instance = this;
 
-        splatters = Resources.LoadAll<Texture2D>("Sprites/BloodSplatters");
+        splatter_textures = Resources.LoadAll<Texture2D>("Sprites/BloodSplatters");
         clips = Resources.LoadAll<AudioClip>("Audio/BloodSplatterSounds");
+        splatters = new LinkedList<(Vector2 pos, int index)>();
     }
 
     public static void AddSplatter(Vector2 position=default(Vector2))
@@ -25,9 +28,12 @@ public class PlayerBloodUI : MonoBehaviour
         {
             position = new Vector2(Random.value*Screen.width, Random.value*Screen.height);
         }
+        int index = Random.Range(0, splatter_textures.Length);
 
         var splatter = Instantiate(instance.prefab_splatter, position, Quaternion.identity, instance.transform);
-        splatter.GetComponent<RawImage>().texture = splatters[Random.Range(0, splatters.Length)];
+        splatter.GetComponent<RawImage>().texture = splatter_textures[index];
         AudioManager.PlayClip(clips[Random.Range(0, clips.Length)]);
+
+        splatters.AddLast((position, index));
     }
 }

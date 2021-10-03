@@ -17,6 +17,8 @@ public class Init : MonoBehaviour
         player.GetComponent<DynamicLoading>().Init();
         player.GetComponent<PlayerInput>().Init();
         player.GetComponent<PlayerMovement>().Init();
+        player.GetComponent<PlayerFlashlight>().Init();
+        player.GetComponent<EnemySpawning>().Init();
 
         canvas.GetComponent<PlayerBloodUI>().Init();
 

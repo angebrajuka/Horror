@@ -2,12 +2,24 @@ using UnityEngine;
 
 public class EnemySpawning : MonoBehaviour
 {
+    public static EnemySpawning instance;
+
     // hierarchy
     public Transform enemies;
     public GameObject[] prefabs_enemies;
     public float minDistance, maxDistance;
     public float minDelay, maxDelay;
     public float timer; // also initial delay
+
+    public SaveData.Enemy[] Enemies
+    {
+        get { return new SaveData.Enemy[0]; } // TODO
+    }
+
+    public void Init()
+    {
+        instance = this;
+    }
 
     Vector3 GetPosition()
     {
@@ -16,9 +28,6 @@ public class EnemySpawning : MonoBehaviour
         position.x += 0.5f;
         position.z += 0.5f;
         position *= DynamicLoading.CHUNK_SIZE;
-        // Vector2 offset = Random.insideUnitCircle.normalized*Random.Range(minDistance, maxDistance);
-        // position.x += offset.x;
-        // position.z += offset.y;
 
         return position;
     }
