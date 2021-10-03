@@ -985,7 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a689cf7c64c1b4429a350aacf44b769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transform_enemies: {fileID: 0}
+  transform_enemies: {fileID: 826157886}
   prefabs_enemies:
   - {fileID: 4174639950120652942, guid: 21e9c7441e66e2d4eb4b46333b85ad41, type: 3}
   minDistance: 100
