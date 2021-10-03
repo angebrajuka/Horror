@@ -20,6 +20,8 @@ public class Init : MonoBehaviour
 
         canvas.GetComponent<PlayerBloodUI>().Init();
 
+        SaveData.TryLoad();
+
         PauseHandler.UnPause();
 
         Destroy(gameObject);

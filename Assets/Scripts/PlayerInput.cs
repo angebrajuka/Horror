@@ -22,7 +22,10 @@ public class KeybindsJson
 
 public class PlayerInput : MonoBehaviour
 {
-    static string CONTROLS_PATH;
+    static string CONTROLS_PATH
+    {
+        get { return Application.persistentDataPath+"/controls.json"; }
+    }
 
     public static PlayerInput instance;
 
@@ -37,8 +40,6 @@ public class PlayerInput : MonoBehaviour
     public void Init()
     {
         instance = this;
-
-        CONTROLS_PATH = Application.persistentDataPath+"/controls.json";
 
         keybinds = new Dictionary<string, KeyCode>();
 
