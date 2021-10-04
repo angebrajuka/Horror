@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuHandler : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class MenuHandler : MonoBehaviour
         {
             instance.transform.GetChild(i).gameObject.SetActive(false);
         }
+        Close(true);
     }
 
     public static void Close(bool all)
@@ -24,6 +26,7 @@ public class MenuHandler : MonoBehaviour
         if(all)
         {
             PlayerInput.instance.enabled = true;
+            instance.GetComponent<Image>().enabled = false;
         }
     }
 
@@ -38,6 +41,7 @@ public class MenuHandler : MonoBehaviour
             Close(false);
             currentMenu = value;
             instance.transform.GetChild(currentMenu).gameObject.SetActive(true);
+            instance.GetComponent<Image>().enabled = true;
         }
     }
 }
