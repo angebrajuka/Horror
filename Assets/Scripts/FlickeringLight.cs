@@ -9,6 +9,7 @@ public class FlickeringLight : MonoBehaviour
     public float averageRadius, averageIntensity;
     public bool useBeginningRadius;
     public bool useBeginningIntensity;
+    public bool fadeIn;
 
     private Light m_light;
     private float timer, interval;
@@ -31,6 +32,11 @@ public class FlickeringLight : MonoBehaviour
         interval = 0;
         targetIntensity = averageIntensity;
         targetRadius = averageRadius;
+
+        if(fadeIn)
+        {
+            m_light.intensity = 0;
+        }
     }
 
     void Update()
@@ -39,12 +45,12 @@ public class FlickeringLight : MonoBehaviour
         if(timer >= interval)
         {
             timer = 0;
-            targetRadius = averageRadius + Random.value*radiusRange*2 - radiusRange;
-            targetIntensity = averageIntensity + Random.value*intensityRange*2 - intensityRange;
-            interval = timingAverage + Random.value*timingRange*2 - timingRange;
+            targetRadius = averageRadius + Random.Range(-radiusRange, radiusRange);
+            targetIntensity = averageIntensity + Random.Range(-intensityRange, intensityRange);
+            interval = timingAverage + Random.Range(-timingRange, timingRange);
         }
 
-        m_light.intensity = Mathf.Lerp(m_light.intensity, targetIntensity, changeSpeed);
-        m_light.spotAngle = Mathf.Lerp(m_light.spotAngle, targetRadius, changeSpeed);
+        m_light.intensity = Mathf.Lerp(m_light.intensity, targetIntensity, changeSpeed*Time.deltaTime);
+        m_light.spotAngle = Mathf.Lerp(m_light.spotAngle, targetRadius, changeSpeed*Time.deltaTime);
     }
 }

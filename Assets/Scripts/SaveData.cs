@@ -106,10 +106,9 @@ public class SaveData
 
         PlayerFlashlight.instance.time = flashlight_time;
         PlayerFlashlight.instance.onDelay = flashlight_onDelay;
-        PlayerFlashlight.instance.on = flashlight_on;
         if(flashlight_on)
         {
-            PlayerFlashlight.instance.flashlight.gameObject.SetActive(true);
+            PlayerFlashlight.instance.InstantOn();
         }
 
         foreach(var splatter in bloodUI_splatters)
