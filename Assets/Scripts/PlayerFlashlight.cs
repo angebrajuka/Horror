@@ -35,7 +35,6 @@ public class PlayerFlashlight : MonoBehaviour
     {
         flashlight.averageIntensity = intensityAvg;
         flashlight.intensityRange = intensityRange;
-        // on = true;
     }
 
     public void ClickOn()
@@ -49,7 +48,6 @@ public class PlayerFlashlight : MonoBehaviour
         flashlight.changeSpeed = 1f;
         flashlight.intensityRange = 0;
         flashlight.averageIntensity = 0;
-        // on = false;
         AudioManager.PlayClip(click_off);
     }
 
