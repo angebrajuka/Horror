@@ -128,22 +128,22 @@ public class SaveData
         }
     }
 
-    public static string DirectoryPath
+    public static string DIRECTORY_PATH
     {
         get { return Application.persistentDataPath + "/savedata/"; }
     }
 
-    public static string FilePath
+    public static string FILE_PATH
     {
-        get { return DirectoryPath+"slot0.sav"; }
+        get { return DIRECTORY_PATH+"game.sav"; }
     }
 
     public static void Save()
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        Directory.CreateDirectory(DirectoryPath);
-        FileStream stream = new FileStream(FilePath, FileMode.Create);
+        Directory.CreateDirectory(DIRECTORY_PATH);
+        FileStream stream = new FileStream(FILE_PATH, FileMode.Create);
 
         SaveData data = new SaveData();
         formatter.Serialize(stream, data);
@@ -152,10 +152,10 @@ public class SaveData
 
     public static bool TryLoad()
     {
-        if(File.Exists(FilePath))
+        if(File.Exists(FILE_PATH))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            var stream = new FileStream(FilePath, FileMode.Open);
+            var stream = new FileStream(FILE_PATH, FileMode.Open);
 
             SaveData data = formatter.Deserialize(stream) as SaveData;
             data.Load();

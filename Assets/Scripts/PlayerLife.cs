@@ -16,7 +16,7 @@ public static class PlayerLife
             {
                 dead = true;
                 Debug.Log("dead");
-                System.IO.File.Delete(SaveData.FilePath);
+                System.IO.File.Delete(SaveData.FILE_PATH);
                 Application.Quit();
             }
         }

@@ -24,7 +24,7 @@ public class PlayerInput : MonoBehaviour
 {
     static string CONTROLS_PATH
     {
-        get { return Application.persistentDataPath+"/controls.json"; }
+        get { return SaveData.DIRECTORY_PATH+"/controls.json"; }
     }
     public static float MAX_LOOK_SPEED = 6f;
 
