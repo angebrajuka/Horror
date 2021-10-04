@@ -21,7 +21,7 @@ public class Enemy_WeepingAngel : MonoBehaviour
 
     void Update()
     {
-        enemy.Update();
+        enemy.OnUpdate();
 
         if(enemy.LineOfSight() && !onScreen.onScreen)
         {

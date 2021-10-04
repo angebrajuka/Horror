@@ -25,7 +25,7 @@ public class Enemy
         return !Physics.Raycast(transform.position, PlayerMovement.instance.t_camera.position-transform.position, Distance, layermask);
     }
 
-    public void Update()
+    public void OnUpdate()
     {
         if(!onScreen.onScreen && Distance > despawnDistance)
         {

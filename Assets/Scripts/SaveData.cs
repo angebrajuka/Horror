@@ -72,13 +72,7 @@ public class SaveData
             i ++;
         }
 
-        enemies = new S_Enemy[EnemySpawning.instance.enemies.Count];
-        i=0;
-        foreach(var enemy in EnemySpawning.instance.enemies)
-        {
-            enemies[i] = enemy;
-            i ++;
-        }
+        enemies = EnemySpawning.enemies;
         enemy_spawnTimer = EnemySpawning.instance.timer;
 
         chunks = new S_Chunk[DynamicLoading.loadedChunks.Count];

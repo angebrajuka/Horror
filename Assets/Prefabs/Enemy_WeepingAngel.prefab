@@ -625,6 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a3dbbd0891df144a1f4d93eca34795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  angel: {fileID: 0}
 --- !u!1 &4174639950120652942
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4174639950120652937}
   - component: {fileID: 4174639950120652941}
+  - component: {fileID: 8996458247809728529}
   m_Layer: 7
   m_Name: Enemy_WeepingAngel
   m_TagString: Untagged
@@ -677,9 +679,23 @@ MonoBehaviour:
   enemyLookedAt: {fileID: 3017605018292440754}
   mesh_default: {fileID: 4382120946364910118}
   mesh_explode: {fileID: 4160439251166658762}
+  prefab_innerDemon: {fileID: 0}
   despawnDistance: 25
   breakTimerMax: 1
   moveSpeed: 1
+--- !u!114 &8996458247809728529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4174639950120652942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b1aabe42c0eec841a1504c362e232fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 0
 --- !u!65 &7193824639911712318
 BoxCollider:
   m_ObjectHideFlags: 0
