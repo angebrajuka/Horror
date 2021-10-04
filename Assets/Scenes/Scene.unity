@@ -3762,7 +3762,7 @@ MonoBehaviour:
   menuHandler: {fileID: 480213061}
   menuMouse: {fileID: 599390429}
   menuKeybinds: {fileID: 388783604}
-  load: 0
+  load: 1
 --- !u!4 &2010993683
 Transform:
   m_ObjectHideFlags: 0
