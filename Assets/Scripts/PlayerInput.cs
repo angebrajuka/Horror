@@ -26,6 +26,7 @@ public class PlayerInput : MonoBehaviour
     {
         get { return Application.persistentDataPath+"/controls.json"; }
     }
+    public static float MAX_LOOK_SPEED = 6f;
 
     public static PlayerInput instance;
 
@@ -45,9 +46,9 @@ public class PlayerInput : MonoBehaviour
 
         input_move = new Vector3(0, 0);
         input_look = new Vector2(0, 0);
-        speed_look = new Vector2(1.1f, 0.8f);
+        speed_look = new Vector2(0, 0);
 
-        LoadKeybinds();
+        LoadSettings();
     }
 
     public static void LoadKeybindsString(string bindsTxt)
@@ -60,7 +61,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    public static void LoadKeybinds(bool forceDefault=false)
+    public static void LoadSettings(bool forceDefault=false)
     {
         keybinds.Clear();
 
@@ -68,6 +69,12 @@ public class PlayerInput : MonoBehaviour
         if(!forceDefault && System.IO.File.Exists(CONTROLS_PATH))
         {
             LoadKeybindsString(System.IO.File.ReadAllText(CONTROLS_PATH)); // load keybinds if exists
+        }
+
+        speed_look.Set(1.1f, 0.8f);
+        if(PlayerPrefs.HasKey("speed_look_x"))
+        {
+            speed_look.Set(PlayerPrefs.GetFloat("speed_look_x"), PlayerPrefs.GetFloat("speed_look_y"));
         }
     }
 
@@ -85,6 +92,13 @@ public class PlayerInput : MonoBehaviour
         System.IO.File.WriteAllText(CONTROLS_PATH, bindsTxt);
     }
 
+    public static void SaveLookSpeed()
+    {
+        PlayerPrefs.SetFloat("speed_look_x", speed_look.x);
+        PlayerPrefs.SetFloat("speed_look_y", speed_look.y);
+        PlayerPrefs.Save();
+    }
+
     public static bool GetKey(string key)
     {
         return Input.GetKey(keybinds[key]);
@@ -100,9 +114,13 @@ public class PlayerInput : MonoBehaviour
         input_move.Set(0, 0, 0);
         input_look.Set(0, 0);
 
-        if(Input.GetKeyDown(KeyCode.Escape)) PauseHandler.ShowCursor();
-        if(Input.GetKeyDown(KeyCode.Mouse0)) PauseHandler.HideCursor();
-        if(Cursor.visible) return;
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseHandler.ShowCursor();
+            MenuHandler.CurrentMenu = 0;
+            enabled = false;
+            return;
+        }
 
         // movement
         {

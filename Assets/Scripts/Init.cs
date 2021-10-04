@@ -7,6 +7,9 @@ public class Init : MonoBehaviour
     public Transform canvas;
     public AudioManager audioManager;
     public MusicController musicController;
+    public MenuHandler menuHandler;
+    public MenuMouse menuMouse;
+    public MenuKeybinds menuKeybinds;
     public bool load;
 
     void Start()
@@ -23,11 +26,15 @@ public class Init : MonoBehaviour
 
         canvas.GetComponent<PlayerBloodUI>().Init();
 
+        menuHandler.Init();
+        menuMouse.Init();
+        menuKeybinds.Init();
+
         if(load)
         {
             SaveData.TryLoad();
         }
-        
+
         PauseHandler.UnPause();
 
         Destroy(gameObject);
