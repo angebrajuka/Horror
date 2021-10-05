@@ -10,7 +10,7 @@ public class ButtonSounds : MonoBehaviour
     public void OnEnter()
     {
         AudioManager.PlayClip(clipHover, 0.5f, Mixer.MENU);
-        transform.localScale = Vector3.one*1.02f;
+        transform.localScale = Vector3.one*1.04f;
     }
 
     public void OnExit()

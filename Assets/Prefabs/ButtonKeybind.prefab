@@ -47,7 +47,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 20, y: 0}
-  m_SizeDelta: {x: 300, y: 30}
+  m_SizeDelta: {x: 93, y: 35}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6966658376548519298
 CanvasRenderer:
@@ -87,10 +87,12 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: keybind
+  m_Text: 'keybind
+
+'
 --- !u!1 &6966658376668158836
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,11 +143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3612253764425883974, guid: 7a45403b8be9e8b4ead1b46d0672c4e4, type: 3}
       propertyPath: m_FontData.m_Alignment
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3612253764425883974, guid: 7a45403b8be9e8b4ead1b46d0672c4e4, type: 3}
-      propertyPath: m_FontData.m_HorizontalOverflow
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5577510556095862363, guid: 7a45403b8be9e8b4ead1b46d0672c4e4, type: 3}
       propertyPath: m_Name
@@ -169,7 +167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9040080000987120958, guid: 7a45403b8be9e8b4ead1b46d0672c4e4, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9040080000987120958, guid: 7a45403b8be9e8b4ead1b46d0672c4e4, type: 3}
       propertyPath: m_Pivot.y
