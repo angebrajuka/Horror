@@ -23,6 +23,7 @@ public class Init : MonoBehaviour
         player.GetComponent<PlayerMovement>().Init();
         player.GetComponent<PlayerFlashlight>().Init();
         player.GetComponent<EnemySpawning>().Init();
+        PlayerLife.Reset();
 
         canvas.GetComponent<PlayerBloodUI>().Init();
 

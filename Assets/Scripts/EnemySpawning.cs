@@ -12,6 +12,7 @@ public class EnemySpawning : MonoBehaviour
     public float minDelay, maxDelay;
     public float timer; // also initial delay
 
+    public Dictionary<int, GameObject> dict_prefabs_enemies_spawnable;
     public Dictionary<int, GameObject> dict_prefabs_enemies;
     public static SaveData.S_Enemy[] enemies
     {
@@ -21,7 +22,7 @@ public class EnemySpawning : MonoBehaviour
             for(int i=0; i<e.Length; i++)
             {
                 var t = instance.transform_enemies.GetChild(i);
-                e[i] = new SaveData.S_Enemy(t.position, t.gameObject.GetComponent<Int>().value);
+                e[i] = new SaveData.S_Enemy(t.position, t.gameObject.GetComponent<EnemySpawningData>().index);
             }
             return e;
         }
@@ -32,9 +33,13 @@ public class EnemySpawning : MonoBehaviour
         instance = this;
 
         dict_prefabs_enemies = new Dictionary<int, GameObject>();
+        dict_prefabs_enemies_spawnable = new Dictionary<int, GameObject>();
         foreach(var prefab in prefabs_enemies)
         {
-            dict_prefabs_enemies.Add(prefab.GetComponent<Int>().value, prefab);
+            var data = prefab.GetComponent<EnemySpawningData>();
+            dict_prefabs_enemies.Add(data.index, prefab);
+            if(data.spawnable)
+                dict_prefabs_enemies_spawnable.Add(data.index, prefab);
         }
     }
 
@@ -51,7 +56,7 @@ public class EnemySpawning : MonoBehaviour
 
     public void Spawn(Vector3 position, int index)
     {
-        var e = Instantiate(dict_prefabs_enemies[index], position, Quaternion.identity, transform_enemies);
+        Instantiate(dict_prefabs_enemies[index], position, Quaternion.identity, transform_enemies);
     }
 
     void Update()
@@ -60,7 +65,16 @@ public class EnemySpawning : MonoBehaviour
         if(timer <= 0)
         {
             timer = Random.Range(minDelay, maxDelay);
-            Spawn(GetPosition(), Random.Range(0, prefabs_enemies.Length));
+            int i = 0;
+            int target = Random.Range(0, dict_prefabs_enemies_spawnable.Count);
+            foreach(var enemy in dict_prefabs_enemies_spawnable)
+            {
+                if(i == target)
+                {
+                    Spawn(GetPosition(), enemy.Value.GetComponent<EnemySpawningData>().index);
+                }
+                i++;
+            }
         }
     }
 }

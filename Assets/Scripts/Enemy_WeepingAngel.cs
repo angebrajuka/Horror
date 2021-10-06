@@ -39,6 +39,7 @@ public class Enemy_WeepingAngel : MonoBehaviour
             enabled = false;
             mesh_default.SetActive(false);
             mesh_explode.SetActive(true);
+            Instantiate(prefab_innerDemon, transform.position, Quaternion.identity);
         }
     }
 }

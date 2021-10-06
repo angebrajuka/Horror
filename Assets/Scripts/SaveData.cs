@@ -36,9 +36,11 @@ public class SaveData
         }
     }
 
-    float[] player_pos;
-    float[] player_rot_rb;
-    float[] player_rot_cam;
+    public float[] player_pos;
+    public float[] player_rot_rb;
+    public float[] player_rot_cam;
+
+    public int player_health;
 
     public float    flashlight_time;
     public float    flashlight_onDelay;
@@ -59,6 +61,8 @@ public class SaveData
         for(int j=0; j<3; j++) player_rot_rb[j] = PlayerMovement.m_rigidbody.transform.localEulerAngles[j];
         player_rot_cam = new float[3];
         for(int j=0; j<3; j++) player_rot_cam[j] = PlayerMovement.instance.t_camera.localEulerAngles[j];
+
+        player_health = PlayerLife.Health;
 
         flashlight_time = PlayerFlashlight.instance.time;
         flashlight_onDelay = PlayerFlashlight.instance.onDelay;
@@ -97,6 +101,8 @@ public class SaveData
         rot = PlayerMovement.instance.t_camera.localEulerAngles;
         for(int i=0; i<3; i++) rot[i] = player_rot_cam[i];
         PlayerMovement.instance.t_camera.localEulerAngles = rot;
+
+        PlayerLife.Health = player_health;
 
         PlayerFlashlight.instance.time = flashlight_time;
         PlayerFlashlight.instance.onDelay = flashlight_onDelay;
