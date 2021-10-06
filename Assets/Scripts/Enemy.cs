@@ -1,17 +1,10 @@
 using UnityEngine;
 
-public class Enemy
+public class Enemy : MonoBehaviour
 {
-    public Transform transform;
+    // hierarchy
     public OnScreen onScreen;
     public float despawnDistance;
-
-    public Enemy(Transform transform, OnScreen onScreen, float despawnDistance)
-    {
-        this.transform = transform;
-        this.onScreen = onScreen;
-        this.despawnDistance = despawnDistance;
-    }
 
     float Distance
     {
