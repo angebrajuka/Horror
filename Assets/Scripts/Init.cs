@@ -10,6 +10,7 @@ public class Init : MonoBehaviour
     public MenuHandler menuHandler;
     public MenuMouse menuMouse;
     public MenuKeybinds menuKeybinds;
+    public StaticEffect staticEffect;
     public bool load;
 
     void Start()
@@ -30,6 +31,8 @@ public class Init : MonoBehaviour
         menuHandler.Init();
         menuMouse.Init();
         menuKeybinds.Init();
+
+        staticEffect.Init();
 
         if(load)
         {
