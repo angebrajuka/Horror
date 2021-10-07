@@ -8,9 +8,13 @@ public class DynamicLoading : MonoBehaviour
     // hierarchy
     public GameObject prefab_chunk;
     public Transform chunks;
+    public int exitDistance;
+    public float exitChance;
 
     public static Queue<Chunk> unloadedChunks;
     public static Dictionary<(int x, int z), Chunk> loadedChunks;
+    public static bool exitLoaded;
+    public static Chunk exitChunk;
     public const int CHUNK_SIZE = 10;
     public static Vector3Int prevPos, currPos;
 
@@ -22,6 +26,8 @@ public class DynamicLoading : MonoBehaviour
         loadedChunks = new Dictionary<(int x, int z), Chunk>();
         prevPos = new Vector3Int(0, 0, 0);
         currPos = new Vector3Int(0, 0, 0);
+        exitChunk = null;
+        exitLoaded = false;
     }
 
     public static readonly Vector3Int[] neighborPositions = new Vector3Int[]{
@@ -47,11 +53,12 @@ public class DynamicLoading : MonoBehaviour
         }
     }
 
-    public Chunk LoadRaw(Vector3Int pos, bool[] nesw)
+    public Chunk LoadRaw(Vector3Int pos, bool[] nesw, bool exit)
     {
         var chunk = unloadedChunks.Count == 0 ? Instantiate(prefab_chunk, Vector3.zero, Quaternion.identity, chunks).GetComponent<Chunk>().AddAllCorn() : unloadedChunks.Dequeue();
         chunk.gameObject.SetActive(true);
-        chunk.Init_Raw(pos.x, pos.z, nesw);
+
+        chunk.Init_Raw(pos.x, pos.z, nesw, exit);
 
         Vector3 position = chunk.transform.position;
         position.x = pos.x*CHUNK_SIZE;
@@ -67,7 +74,12 @@ public class DynamicLoading : MonoBehaviour
     {
         if(!loadedChunks.ContainsKey((pos.x, pos.z)))
         {
-            var chunk = LoadRaw(pos, new bool[]{false, false, false, false});
+            var chunk = LoadRaw(pos, new bool[]{false, false, false, false}, !exitLoaded && Random.value <= exitChance && Vector3Int.Distance(Vector3Int.zero, pos) >= exitDistance);
+            if(chunk.isExit)
+            {
+                exitLoaded = true;
+                exitChunk = chunk;
+            }
 
             chunk.Init(deadEnd);
         }

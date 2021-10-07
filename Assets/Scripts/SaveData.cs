@@ -23,6 +23,7 @@ public class SaveData
     {
         public int[] pos;
         public bool[] nesw;
+        public bool exit;
 
         public S_Chunk(Chunk chunk)
         {
@@ -33,6 +34,8 @@ public class SaveData
             {
                 nesw[i] = chunk.IsOpen(i);
             }
+
+            exit = chunk.isExit;
         }
     }
 
@@ -124,7 +127,7 @@ public class SaveData
 
         foreach(var chunk in chunks)
         {
-            DynamicLoading.instance.LoadRaw(new Vector3Int(chunk.pos[0], chunk.pos[1], chunk.pos[2]), chunk.nesw);
+            DynamicLoading.instance.LoadRaw(new Vector3Int(chunk.pos[0], chunk.pos[1], chunk.pos[2]), chunk.nesw, chunk.exit);
         }
     }
 

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 public class Chunk : MonoBehaviour
 {
     // hierarchy
-    public GameObject[] colliders;
     public GameObject prefab_corn;
+    public GameObject prefab_exit;
+    public GameObject[] colliders;
     public int density;
     public float variation;
     public float minHeight, maxHeight;
@@ -13,10 +14,11 @@ public class Chunk : MonoBehaviour
     public Vector3Int pos;
     public int totalOpenings;
     public int branches;
+    public bool isExit;
 
     static readonly int[] opposites = new int[]{2, 3, 0, 1};
 
-    public void Init_Raw(int x, int z, bool[] nesw)
+    public void Init_Raw(int x, int z, bool[] nesw, bool exit)
     {
         pos = new Vector3Int(x, 0, z);
         totalOpenings = 0;
@@ -26,6 +28,12 @@ public class Chunk : MonoBehaviour
         {
             collider.SetActive(!nesw[i]);
             i++;
+        }
+
+        isExit = exit;
+        if(isExit)
+        {
+            Instantiate(prefab_exit, pos*DynamicLoading.CHUNK_SIZE, Quaternion.identity, transform);
         }
     }
 

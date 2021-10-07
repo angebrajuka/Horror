@@ -1844,6 +1844,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab_chunk: {fileID: 2769058477316496607, guid: b7ed7e4ba6d72a94ea96b91f7d878897, type: 3}
   chunks: {fileID: 836407070}
+  exitDistance: 0
+  exitChance: 1
 --- !u!114 &829120240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3814,7 +3816,7 @@ MonoBehaviour:
   menuMouse: {fileID: 599390429}
   menuKeybinds: {fileID: 388783604}
   staticEffect: {fileID: 589476324}
-  load: 1
+  load: 0
 --- !u!4 &2010993683
 Transform:
   m_ObjectHideFlags: 0
