@@ -672,17 +672,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab1df9df263acc428d26f669d6ce512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onScreen: {fileID: 3438079277913165509}
+  despawnDistance: 25
   eyes:
   - {fileID: 3628124422449962655}
   - {fileID: 5247477271605972869}
-  onScreen: {fileID: 3438079277913165509}
   enemyLookedAt: {fileID: 3017605018292440754}
   mesh_default: {fileID: 4382120946364910118}
   mesh_explode: {fileID: 4160439251166658762}
   prefab_innerDemon: {fileID: 2175803646819147053, guid: 0e4c3022023cb54429e1e4d0b1f1ca1b, type: 3}
-  despawnDistance: 25
   breakTimerMax: 1
   moveSpeed: 1
+  killDistance: 2
 --- !u!114 &8996458247809728529
 MonoBehaviour:
   m_ObjectHideFlags: 0

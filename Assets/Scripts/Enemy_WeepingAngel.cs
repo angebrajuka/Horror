@@ -3,12 +3,14 @@ using UnityEngine;
 public class Enemy_WeepingAngel : Enemy
 {
     // hierarchy
+    public AudioClip[] behindYou;
     public MeshRenderer[] eyes;
     public EnemyLookedAt enemyLookedAt;
     public GameObject mesh_default, mesh_explode;
     public GameObject prefab_innerDemon;
     public float breakTimerMax;
     public float moveSpeed;
+    public float killDistance;
 
     void Start()
     {
@@ -18,10 +20,15 @@ public class Enemy_WeepingAngel : Enemy
     {
         OnUpdate();
 
-        if(LineOfSight() && !onScreen.onScreen)
+        if(LineOfSight() && !onScreen.onScreen && Vector3.Distance(transform.position, PlayerMovement.m_rigidbody.position) > killDistance)
         {
             transform.position = Vector3.MoveTowards(transform.position, PlayerMovement.m_rigidbody.position, Time.deltaTime*moveSpeed);
             transform.LookAt(PlayerMovement.m_rigidbody.position);
+            if(Vector3.Distance(transform.position, PlayerMovement.m_rigidbody.position) <= killDistance)
+            {
+                PlayerInput.frozen = true;
+                AudioManager.PlayClip(behindYou[Random.Range(0, behindYou.Length-1)]);
+            }
         }
 
         foreach(var eye in eyes)

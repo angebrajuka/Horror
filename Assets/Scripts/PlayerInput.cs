@@ -38,6 +38,8 @@ public class PlayerInput : MonoBehaviour
     public static Vector3 input_move;
     public static Vector2 input_look;
 
+    public static bool frozen;
+
     public void Init()
     {
         instance = this;
@@ -47,6 +49,8 @@ public class PlayerInput : MonoBehaviour
         input_move = new Vector3(0, 0);
         input_look = new Vector2(0, 0);
         speed_look = new Vector2(0, 0);
+
+        frozen = false;
 
         LoadSettings();
     }
@@ -113,6 +117,8 @@ public class PlayerInput : MonoBehaviour
     {
         input_move.Set(0, 0, 0);
         input_look.Set(0, 0);
+
+        if(frozen) return;
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
