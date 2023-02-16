@@ -2,5 +2,6 @@
 
 A 3D Horror game made in Unity version 2020.3.17f1
 
-TODO List:
-https://trello.com/invite/b/ogGCow70/e5ddcacbc4eb219bf1c668b26eeb39b4/horror
+![image](https://user-images.githubusercontent.com/35403243/219478732-06632b3e-a8ae-413f-9a2d-55f2101693e3.png)
+
+
